@@ -18,6 +18,22 @@ defmodule Geo.PostGIS do
 
   """
 
+  defmacro st_make_polygon(linestring) do
+    quote do: fragment("ST_MakePolygon(?)", linestring)
+  end
+
+  defmacro st_make_polygon(outer_linestring, interior_linestring) do
+    quote do: fragment("ST_MakePolygon(?, ?)", outer_linestring, interior_linestring)
+  end
+
+  defmacro st_make_line(geometry_array) do
+    quote do: fragment("ST_MakeLine(?)", geometry_array)
+  end
+
+  defmacro st_make_line(geometryA, geometryB) do
+    quote do: fragment("ST_MakeLine(?, ?)", geometryA, geometryB)
+  end
+
   defmacro st_transform(wkt, srid) do
     quote do: fragment("ST_Transform(?, ?)", unquote(wkt), unquote(srid))
   end
