@@ -43,7 +43,7 @@ defmodule Geo.PostGIS do
   end
 
   defmacro st_make_envelope(xmin, ymin, xmax, ymax, srid \\ "") do
-    quote do: fragment("ST_MakeEnvelope(?, ?, ?, ?, ?)", xmin, ymin, xmax, ymax, srid)
+    quote do: fragment("ST_MakeEnvelope(?, ?, ?, ?, ?)", unquote(xmin), unquote(ymin), unquote(xmax), unquote(ymax), unquote(srid))
   end
 
   defmacro st_segmentize(geometry_or_geography, max_segment_length) do
