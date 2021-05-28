@@ -18,6 +18,38 @@ defmodule Geo.PostGIS do
 
   """
 
+  defmacro st_as_mvt(row) do
+    quote do: fragment("ST_AsMVT(?)", unquote(row))
+  end
+
+  defmacro st_as_mvt(row, name) do
+    quote do: fragment("ST_AsMVT(?, ?)", unquote(row), unquote(name))
+  end
+
+  defmacro st_as_mvt(row, name, extent) do
+    quote do: fragment("ST_AsMVT(?, ?, ?)", unquote(row), unquote(name), unquote(extent))
+  end
+
+  defmacro st_as_mvt(row, name, extent, geom_name) do
+    quote do: fragment("ST_AsMVT(?, ?, ?, ?)", unquote(row), unquote(name), unquote(extent), unquote(geom_name))
+  end
+
+  defmacro st_as_mvt(row, name, extent, geom_name, feature_id_name) do
+    quote do: fragment("ST_AsMVT(?, ?, ?, ?, ?)", unquote(row), unquote(name), unquote(extent), unquote(geom_name), unquote(feature_id_name))
+  end
+
+  defmacro st_as_mvt_geom(geometry, bounds, extent \\ 4096, buffer \\ 256, clip_geom \\ true) do
+    quote do: fragment("ST_AsMVTGeom(?, ?, ?, ?, ?)", unquote(geometry), unquote(bounds), unquote(extent), unquote(buffer), unquote(clip_geom))
+  end
+
+  defmacro st_make_envelope(xmin, ymin, xmax, ymax, srid \\ "") do
+    quote do: fragment("ST_MakeEnvelope(?, ?, ?, ?, ?)", xmin, ymin, xmax, ymax, srid)
+  end
+
+  defmacro st_segmentize(geometry_or_geography, max_segment_length) do
+    quote do: fragment("ST_Segmentize(?, ?)", unquote(geometry_or_geography), unquote(max_segment_length))
+  end
+
   defmacro st_make_polygon(linestring) do
     quote do: fragment("ST_MakePolygon(?)", unquote(linestring))
   end
